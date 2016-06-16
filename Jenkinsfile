@@ -12,6 +12,5 @@ node
 			    includedRegions: ''
 		    ]], 
             userRemoteConfigs: [[
-                credentialsId: 'sasha-jenkins', 
                 url: 'git@github.com:VirtoCommerce/vc-module-jenkinssample.git']]])
 }
