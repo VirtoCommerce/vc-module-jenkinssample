@@ -1,7 +1,6 @@
-properties([[$class: 'TriggersProperty', triggers: [[$class: 'GitHubTrigger']]]])
-
 node 
 {
+	properties([[$class: 'TriggersProperty', triggers: [[$class: 'GitHubPushTrigger']]]])
 	stage 'Checkout'
 	
 	checkout scm
