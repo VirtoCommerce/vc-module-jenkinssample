@@ -1,6 +1,3 @@
-import jenkins.branch.NoTriggerBranchProperty;
-import jenkins.branch.NoTriggerOrganizationFolderProperty;
- 
 node 
 {
 	stage 'Checkout'
@@ -14,6 +11,4 @@ node
 		    ]], 
             userRemoteConfigs: [[
                 url: 'git@github.com:VirtoCommerce/vc-module-jenkinssample.git']]])
-                
- //       properties([[$class: 'NoTriggerBranchProperty']])
 }
