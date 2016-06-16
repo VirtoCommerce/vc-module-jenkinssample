@@ -6,7 +6,7 @@ node
     	checkout([$class: 'GitSCM', branches: [[name: '*/' + env.BRANCH_NAME]],
         	extensions: [[$class: 'CleanCheckout'],[$class: 'LocalBranch', localBranch: env.BRANCH_NAME]]])
         
-	/*
+	/* 
         checkout([
             $class: 'GitSCM', 
             branches: [[name: 'master']], 
