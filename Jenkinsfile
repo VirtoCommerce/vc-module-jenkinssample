@@ -1,3 +1,5 @@
+properties([[$class: 'TriggersProperty', triggers: [[$class: 'GitHubTrigger']]]])
+
 node 
 {
 	stage 'Checkout'
