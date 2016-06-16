@@ -12,5 +12,5 @@ node
             userRemoteConfigs: [[
                 url: 'git@github.com:VirtoCommerce/vc-module-jenkinssample.git']]])
                 
-        properties([[$class: 'NoBranchIndexingTrigger']])
+        properties([[$class: 'NoTriggerOrganizationFolderProperty']])
 }
