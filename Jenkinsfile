@@ -1,5 +1,3 @@
-import groovy.json.*
-
 node 
 {
 	stage 'Checkout'
