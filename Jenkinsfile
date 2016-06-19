@@ -13,7 +13,7 @@ node
 	def title2 = manifest.module.toString()
     	echo "Platform: ${title} - ${title2}"
     	
-    	var module = new Module(
+    	var module = new VirtoModule(
     		id: manifest.id
     		version: manifest.version
     		platformVersion: manifest.platformVersion
@@ -51,7 +51,7 @@ node
 */
 }
 
-class Module {
+class VirtoModule {
     def id
     def version
     def platformVersion
