@@ -44,7 +44,8 @@ def updateModule(def manifest)
             
             for (rec in json) {
                if ( rec.id == manifest.id) {
-               	    builder.description = "test"
+               	    echo "found record, updating ${rec.id}"
+               	    rec.description = "test"
 		break
                }
             }
