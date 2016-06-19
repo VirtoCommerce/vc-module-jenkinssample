@@ -4,6 +4,7 @@ import groovy.util.*
 
 node
 {
+	/*
 	checkout scm
 	
 	def manifestFile = readFile file: 'module.manifest', encoding: 'utf-8'
@@ -12,6 +13,8 @@ node
 	//echo manifestFile
     	echo "Upading module ${manifest.id}"
     		// MODULES
+    		
+    	*/
         dir('modules') {
             echo "checkout"
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
