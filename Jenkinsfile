@@ -2,51 +2,17 @@
 import groovy.json.*
 import groovy.util.*
 
-class VirtoModule {
-    def id
-    def version
-    def platformVersion
-    def title
-    def description
-    def groups
-    def authors
-    def owners
-    def projectUrl
-    def iconUrl
-    def packageUrl
-}
-
 node
 {
 	checkout scm
+	
 	def manifestFile = readFile file: 'module.manifest', encoding: 'utf-8'
 	def manifest = new XmlSlurper().parseText(manifestFile)
 
 	echo manifestFile
 	def title = manifest.title.toString()
-	def title2 = manifest.module.toString()
-    	echo "Platform: ${title} - ${title2}"
-    	
-    	def module = new VirtoModule(
-    		id: manifest.id,
-    		version: manifest.version,
-    		platformVersion: manifest.platformVersion,
-    		title: manifest.title,
-    		description: manifest.description
-    	)
-    	jsonBuilder(module)
-	println("Using list of objects")
-	println(jsonBuilder.toPrettyString())
-
-/*
-	//def moduleNode = json.find { it.id == 'VirtoCommerce.Store'}
-	for (rec in json) {
-    	if ( rec.id == 'VirtoCommerce.Store') {
-        	println(rec.description)
-            break
-		}
-	}
-*/
+    	echo "Upading module ${manifest.id}"
+    	updateModule(manifest)
 
 /*
 
@@ -63,4 +29,26 @@ node
         "packageUrl": "https://github.com/VirtoCommerce/vc-module-core/releases/download/v2.12/VirtoCommerce.Core_2.12.0.zip"
 
 */
+}
+
+def updateModule(def manifest)
+{
+	// MODULES
+        dir('modules') {
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
+
+            def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
+            def parser = new JsonSlurper()
+            def json = parser.parseText(inputFile)
+            def builder = new JsonBuilder(json)
+            
+            for (rec in json) {
+               if ( rec.id == manifest.id) {
+               	    builder.description = "test"
+		break
+               }
+            }
+            
+            println(builder.toPrettyString())
+        }
 }
