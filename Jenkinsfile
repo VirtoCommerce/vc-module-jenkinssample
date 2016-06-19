@@ -11,7 +11,27 @@ node
 
 	//echo manifestFile
     	echo "Upading module ${manifest.id}"
-    	updateModule(manifest)
+    		// MODULES
+        dir('modules') {
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
+
+            def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
+            
+            def parser = new JsonSlurper()
+            def json = parser.parseText(inputFile)
+            echo json
+            def builder = new JsonBuilder(json)
+            
+            for (rec in json) {
+               if ( rec.id == manifest.id) {
+               	    echo "found record, updating ${rec.id}"
+               	    rec.description = "test"
+		break
+               }
+            }
+            
+            println(builder.toPrettyString())
+        }
 
 /*
 
@@ -32,27 +52,5 @@ node
 
 def updateModule(def manifest)
 {
-	// MODULES
-        dir('modules') {
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
 
-            def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
-            echo "Input: $inputFile"
-            /*
-            def parser = new JsonSlurper()
-            def json = parser.parseText(inputFile)
-            echo json
-            def builder = new JsonBuilder(json)
-            
-            for (rec in json) {
-               if ( rec.id == manifest.id) {
-               	    echo "found record, updating ${rec.id}"
-               	    rec.description = "test"
-		break
-               }
-            }
-            
-            println(builder.toPrettyString())
-            */
-        }
 }
