@@ -14,10 +14,10 @@ node
     	echo "Platform: ${title} - ${title2}"
     	
     	def module = new VirtoModule(
-    		id: manifest.id
-    		version: manifest.version
-    		platformVersion: manifest.platformVersion
-    		title: manifest.title
+    		id: manifest.id,
+    		version: manifest.version,
+    		platformVersion: manifest.platformVersion,
+    		title: manifest.title,
     		description: manifest.description
     	)
     	jsonBuilder(module)
