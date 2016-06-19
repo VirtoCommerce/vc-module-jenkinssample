@@ -39,7 +39,9 @@ def updateModule(def manifest)
 
             def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
             def parser = new JsonSlurper()
+            echo inputFile
             def json = parser.parseText(inputFile)
+            echo json
             def builder = new JsonBuilder(json)
             
             for (rec in json) {
