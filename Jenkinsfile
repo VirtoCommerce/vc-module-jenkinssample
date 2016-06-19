@@ -6,12 +6,15 @@ node
 {
 	
 	checkout scm
-	def manifestFile = readFile file: 'module.manifest', encoding: 'utf-8'
-	
 	dir('modules') {
             	checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
+	}
+	
+	def manifestFile = readFile file: 'module.manifest', encoding: 'utf-8'
+	def manifest = new XmlSlurper().parseText(manifestFile)
+	
+	dir('modules') {
 		def modulesFile = readFile file: 'modules.json', encoding: 'utf-8'
-		def manifest = new XmlSlurper().parseText(manifestFile)
 		def modules = new XmlSlurper().parseText(modulesFile)
 		
 		def builder = new JsonBuilder(modules)
