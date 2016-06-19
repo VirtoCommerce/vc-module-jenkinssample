@@ -2,6 +2,20 @@
 import groovy.json.*
 import groovy.util.*
 
+class VirtoModule {
+    def id
+    def version
+    def platformVersion
+    def title
+    def description
+    def groups
+    def authors
+    def owners
+    def projectUrl
+    def iconUrl
+    def packageUrl
+}
+
 node
 {
 	checkout scm
@@ -49,18 +63,4 @@ node
         "packageUrl": "https://github.com/VirtoCommerce/vc-module-core/releases/download/v2.12/VirtoCommerce.Core_2.12.0.zip"
 
 */
-}
-
-class VirtoModule {
-    def id
-    def version
-    def platformVersion
-    def title
-    def description
-    def groups
-    def authors
-    def owners
-    def projectUrl
-    def iconUrl
-    def packageUrl
 }
