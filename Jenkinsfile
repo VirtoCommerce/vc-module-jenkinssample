@@ -17,6 +17,8 @@ node
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
 		
 		echo "reading file"
+		
+	/*
             def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
              echo inputFile
             def parser = new JsonSlurper()
@@ -33,6 +35,7 @@ node
             }
             
             println(builder.toPrettyString())
+            */
         }
 
 /*
