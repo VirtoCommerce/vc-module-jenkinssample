@@ -9,6 +9,7 @@ node
     def builder = new JsonBuilder(json)
     
     println(json.module.id)
+    println(builder.toString())
 
 /*
 	//def moduleNode = json.find { it.id == 'VirtoCommerce.Store'}
