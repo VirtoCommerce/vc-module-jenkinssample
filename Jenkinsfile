@@ -4,7 +4,9 @@ import groovy.util.*
 
 node
 {
-	def manifest = new XmlSlurper().parse("module.manifest")
+	checkout scm
+	def manifestFile = readFile file: 'module.manifest', encoding: 'utf-8'
+	def manifest = new XmlSlurper().parseText(manifestFile)
 
     	println(manifest.module.id)
 
