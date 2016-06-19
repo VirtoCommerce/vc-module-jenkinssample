@@ -9,7 +9,7 @@ node
 	def manifest = new XmlSlurper().parseText(manifestFile)
 
 	echo manifestFile
-    	echo manifest.module.id.text()
+    	echo "Platform: $manifest.module.platformVersion"
 
 /*
 	//def moduleNode = json.find { it.id == 'VirtoCommerce.Store'}
