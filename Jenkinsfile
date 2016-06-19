@@ -38,6 +38,7 @@ def updateModule(def manifest)
 
             def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
             echo "Input: $inputFile"
+            /*
             def parser = new JsonSlurper()
             def json = parser.parseText(inputFile)
             echo json
@@ -52,5 +53,6 @@ def updateModule(def manifest)
             }
             
             println(builder.toPrettyString())
+            */
         }
 }
