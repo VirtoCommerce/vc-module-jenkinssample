@@ -1,15 +1,12 @@
 #!groovy
 import groovy.json.*
+import groovy.util.*
 
 node
 {
-	def inputFile = readFile file: 'module.manifest', encoding: 'utf-8'
-    def parser = new JsonSlurper()
-    def json = parser.parseText(inputFile)
-    def builder = new JsonBuilder(json)
-    
-    println(json.module.id)
-    println(builder.toString())
+	def manifest = new XmlSlurper().parse("module.manifest")
+
+    	println(manifest.module.id)
 
 /*
 	//def moduleNode = json.find { it.id == 'VirtoCommerce.Store'}
