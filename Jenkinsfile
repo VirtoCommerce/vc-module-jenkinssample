@@ -6,8 +6,13 @@ node
 {
 	
 	checkout scm
-	
 	def manifestFile = readFile file: 'module.manifest', encoding: 'utf-8'
+	
+	dir('modules') {
+            	checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
+		def modulesFile = readFile file: 'modules.json', encoding: 'utf-8'
+	}
+	
 	def manifest = new XmlSlurper().parseText(manifestFile)
 	/*
 	//echo manifestFile
@@ -15,13 +20,14 @@ node
     		// MODULES
     		
     	*/
+    		/*
         dir('modules') {
             echo "checkout"
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
+            checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
 		
 		echo "reading file"
 		
-	/*
+
             def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
              echo inputFile
             def parser = new JsonSlurper()
@@ -38,8 +44,8 @@ node
             }
             
             println(builder.toPrettyString())
-            */
         }
+                    */
 
 /*
 
