@@ -9,8 +9,7 @@ node
 	def manifestFile = readFile file: 'module.manifest', encoding: 'utf-8'
 	def manifest = new XmlSlurper().parseText(manifestFile)
 
-	echo manifestFile
-	def title = manifest.title.toString()
+	//echo manifestFile
     	echo "Upading module ${manifest.id}"
     	updateModule(manifest)
 
@@ -38,8 +37,8 @@ def updateModule(def manifest)
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
 
             def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
+            echo "Input: $inputFile"
             def parser = new JsonSlurper()
-            echo inputFile
             def json = parser.parseText(inputFile)
             echo json
             def builder = new JsonBuilder(json)
