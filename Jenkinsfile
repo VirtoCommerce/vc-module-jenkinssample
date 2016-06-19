@@ -1,4 +1,6 @@
 #!groovy
+import groovy.json.*
+
 node
 {
 	def inputFile = readFile file: 'module.manifest', encoding: 'utf-8'
