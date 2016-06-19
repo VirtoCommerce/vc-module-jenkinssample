@@ -14,6 +14,20 @@ node
 	}
 	
 	def manifest = new XmlSlurper().parseText(manifestFile)
+	def modules = new XmlSlurper().parseText(modulesFile)
+	
+	def builder = new JsonBuilder(modules)
+            
+        for (rec in json) {
+               if ( rec.id == manifest.id) {
+               	    echo "found record, updating ${rec.id}"
+               	    rec.description = "test"
+		break
+               }
+        }
+            
+        println(builder.toPrettyString())
+	
 	/*
 	//echo manifestFile
     	echo "Upading module ${manifest.id}"
