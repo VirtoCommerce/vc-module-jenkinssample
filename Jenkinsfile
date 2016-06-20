@@ -94,7 +94,7 @@ def publishRelease()
 {
 	echo "Compressing artifacts into one file"
 	zip dir: '', glob: '', zipFile: 'artifacts.zip'
-	bat "${var.Utils}\\github-release release --user \"VirtoCommerce\" --repo \"vc-module-jenkinssample\" --tag \"v1.0\" --name \"version 1.0\""
+	bat "${env.Utils}\\github-release release --user \"VirtoCommerce\" --repo \"vc-module-jenkinssample\" --tag \"v1.0\" --name \"version 1.0\""
 	/*
 	zip -r artifacts.zip artifacts_folder
 	
