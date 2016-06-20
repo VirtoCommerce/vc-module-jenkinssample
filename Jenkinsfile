@@ -14,17 +14,25 @@ node
     	echo "Upading module ${manifest.id}"
     	def id = manifest.id.toString()
     	
-    	updateModule(
-    		manifest.id.toString(), 
-    		manifest.version.toString(), 
-    		manifest.platformVersion.toString(),
-    		manifest.title.toString(),
-    		manifest.description.toString(),
-    		manifest.projectUrl.toString(),
-    		manifest.packageUrl.toString(),
-    		manifest.iconUrl.toString())
-    		
+    	def version = manifest.version.toString() 
+    	def platformVersion = manifest.platformVersion.toString()
+    	def title = manifest.title.toString()
+    	def description = manifest.description.toString()
+    	def projectUrl = manifest.projectUrl.toString()
+    	def packageUrl = manifest.packageUrl.toString()
+    	def iconUrl = manifest.iconUrl.toString()
+    	
     	manifest = null
+    	updateModule(
+    		id, 
+    		version, 
+    		platformVersion,
+    		title,
+    		description,
+    		projectUrl,
+    		packageUrl,
+    		iconUrl)
+    		
 
 /*
 
