@@ -12,7 +12,9 @@ node
 
 	//echo manifestFile
     	echo "Upading module ${manifest.id}"
-    	updateModule(manifest)
+    	def id = manifest.id
+    	manifest = null
+    	updateModule(id)
 
 /*
 
@@ -31,8 +33,8 @@ node
 */
 }
 
-@NonCPS
-def updateModule(def manifest)
+//@NonCPS
+def updateModule(def id)
 {
 	// MODULES
         dir('modules') {
@@ -46,7 +48,7 @@ def updateModule(def manifest)
             def builder = new JsonBuilder(json)
             
             for (rec in json) {
-               if ( rec.id == manifest.id) {
+               if ( rec.id == id) {
                	    echo "found record, updating ${rec.id}"
                	    rec.description = "test"
 		break
