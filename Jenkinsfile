@@ -13,8 +13,18 @@ node
 	//echo manifestFile
     	echo "Upading module ${manifest.id}"
     	def id = manifest.id.toString()
+    	
+    	updateModule(
+    		id: manifest.id.toString(), 
+    		version: manifest.version.toString(), 
+    		platfromVersion: manifest.platformVersion.toString(),
+    		title: manifest.title.toString(),
+    		description: manifest.description.toString(),
+    		projectUrl: manifest.projectUrl.toString(),
+    		packageUrl: manifest.packageUrl.toString(),
+    		iconUrl: manifest.iconUrl.toString())
+    		
     	manifest = null
-    	updateModule(id)
 
 /*
 
@@ -34,7 +44,7 @@ node
 }
 
 //@NonCPS
-def updateModule(def id)
+def updateModule(def id, def version, def platfromVersion, def title, def description, def projectUrl, def packageUrl, def iconUrl)
 {
 	// MODULES
         dir('modules') {
