@@ -65,7 +65,21 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
             
             for (rec in json) {
                if ( rec.id == id) {
-               	    rec.description = "test"
+               	    rec.description = description
+               	    rec.title = title
+               	    rec.description = description
+               	    if (projectUrl!=null && projectUrl.length()>0)
+               	    {
+               	    	res.projectUrl = projectUrl
+               	    }
+               	    if (packageUrl!=null && packageUrl.length()>0)
+               	    {
+               	    	res.packageUrl = packageUrl
+               	    }
+               	    if (iconUrl!=null && iconUrl.length()>0)
+               	    {
+               	    	res.iconUrl = iconUrl
+               	    }
 		break
                }
             }
