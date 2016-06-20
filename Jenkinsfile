@@ -31,6 +31,7 @@ node
 */
 }
 
+@NonCPS
 def updateModule(def manifest)
 {
 	// MODULES
