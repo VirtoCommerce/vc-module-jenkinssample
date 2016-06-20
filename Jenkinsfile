@@ -41,15 +41,12 @@ def updateModule(def id)
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
 
             def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
-            echo "Input: $inputFile"
             def parser = new JsonSlurper()
             def json = parser.parseText(inputFile)
-            echo json
             def builder = new JsonBuilder(json)
             
             for (rec in json) {
                if ( rec.id == id) {
-               	    echo "found record, updating ${rec.id}"
                	    rec.description = "test"
 		break
                }
