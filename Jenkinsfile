@@ -12,7 +12,7 @@ node
 
 	//echo manifestFile
     	echo "Upading module ${manifest.id}"
-    	def id = manifest.id
+    	def id = manifest.id.toString()
     	manifest = null
     	updateModule(id)
 
