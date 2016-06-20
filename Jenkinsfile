@@ -15,14 +15,14 @@ node
     	def id = manifest.id.toString()
     	
     	updateModule(
-    		id: manifest.id.toString(), 
-    		version: manifest.version.toString(), 
-    		platfromVersion: manifest.platformVersion.toString(),
-    		title: manifest.title.toString(),
-    		description: manifest.description.toString(),
-    		projectUrl: manifest.projectUrl.toString(),
-    		packageUrl: manifest.packageUrl.toString(),
-    		iconUrl: manifest.iconUrl.toString())
+    		manifest.id.toString(), 
+    		manifest.version.toString(), 
+    		manifest.platformVersion.toString(),
+    		manifest.title.toString(),
+    		manifest.description.toString(),
+    		manifest.projectUrl.toString(),
+    		manifest.packageUrl.toString(),
+    		manifest.iconUrl.toString())
     		
     	manifest = null
 
@@ -44,7 +44,7 @@ node
 }
 
 //@NonCPS
-def updateModule(def id, def version, def platfromVersion, def title, def description, def projectUrl, def packageUrl, def iconUrl)
+def updateModule(def id, def version, def platformVersion, def title, def description, def projectUrl, def packageUrl, def iconUrl)
 {
 	// MODULES
         dir('modules') {
