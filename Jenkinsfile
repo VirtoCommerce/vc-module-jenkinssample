@@ -70,15 +70,15 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
                	    rec.description = description
                	    if (projectUrl!=null && projectUrl.length()>0)
                	    {
-               	    	res.projectUrl = projectUrl
+               	    	rec.projectUrl = projectUrl
                	    }
                	    if (packageUrl!=null && packageUrl.length()>0)
                	    {
-               	    	res.packageUrl = packageUrl
+               	    	rec.packageUrl = packageUrl
                	    }
                	    if (iconUrl!=null && iconUrl.length()>0)
                	    {
-               	    	res.iconUrl = iconUrl
+               	    	rec.iconUrl = iconUrl
                	    }
 		break
                }
