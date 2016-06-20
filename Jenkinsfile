@@ -33,7 +33,6 @@ node
     		packageUrl,
     		iconUrl)
     		
-    	publishRelease()
     		
 
 /*
@@ -52,6 +51,8 @@ node
 
 */
 }
+
+publishRelease()
 
 //@NonCPS
 def updateModule(def id, def version, def platformVersion, def title, def description, def projectUrl, def packageUrl, def iconUrl)
@@ -92,6 +93,8 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
 
 def publishRelease()
 {
+	def userInput = input(id: 'userInput', message: 'Create release?') 
+	node {
 	echo "Compressing artifacts into one file"
 	dir('deploy')
 	{
@@ -100,8 +103,6 @@ def publishRelease()
 	
 	zip dir: '', glob: '', zipFile: 'deploy\\artifacts.zip'
 	
-	stage 'promotion'
-	def userInput = input(id: 'userInput', message: 'Create release?') 
 
 	//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
 	bat "${env.Utils}\\github-release release --user VirtoCommerce --repo vc-module-jenkinssample --tag v1.0 --name v1.0"
@@ -123,4 +124,5 @@ def publishRelease()
 	echo "Uploading the artifacts into github"
 	/path_to_bin/./github-release upload --user ${GITHUB_ORGANIZATION} --repo ${GITHUB_REPO} --tag ${VERSION_NAME} --name "${PROJECT_NAME}-${VERSION_NAME}.zip" --file artifacts.zip
 	*/
+	}
 }
