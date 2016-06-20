@@ -99,6 +99,10 @@ def publishRelease()
 	}
 	
 	zip dir: '', glob: '', zipFile: 'deploy\\artifacts.zip'
+	
+	stage 'promotion'
+	def userInput = input(id: 'userInput', message: 'Create release?') 
+
 	//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
 	bat "${env.Utils}\\github-release release --user VirtoCommerce --repo vc-module-jenkinssample --tag v1.0 --name v1.0"
 	bat "${env.Utils}\\github-release upload --user VirtoCommerce --repo vc-module-jenkinssample --tag v1.0 --name v1.0 --file \"deploy\\artifacts.zip\""
