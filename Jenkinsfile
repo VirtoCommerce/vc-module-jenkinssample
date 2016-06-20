@@ -4,65 +4,15 @@ import groovy.util.*
 
 node
 {
-	
 	checkout scm
-	dir('modules') {
-            	checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
-	}
 	
 	def manifestFile = readFile file: 'module.manifest', encoding: 'utf-8'
 	def manifest = new XmlSlurper().parseText(manifestFile)
-	
-	dir('modules') {
-		def modulesFile = readFile file: 'modules.json', encoding: 'utf-8'
-		def modules = new XmlSlurper().parseText(modulesFile)
-		
-		def builder = new JsonBuilder(modules)
-	            
-	        for (rec in json) {
-	               if ( rec.id == manifest.id) {
-	               	    echo "found record, updating ${rec.id}"
-	               	    rec.description = "test"
-			break
-	               }
-	        }
-		println(builder.toPrettyString())
-	}
-	
-            
-	
-	/*
+	manifestFile = null
+
 	//echo manifestFile
     	echo "Upading module ${manifest.id}"
-    		// MODULES
-    		
-    	*/
-    		/*
-        dir('modules') {
-            echo "checkout"
-            checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
-		
-		echo "reading file"
-		
-
-            def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
-             echo inputFile
-            def parser = new JsonSlurper()
-            def json = parser.parseText(inputFile)
-            echo json
-            def builder = new JsonBuilder(json)
-            
-            for (rec in json) {
-               if ( rec.id == manifest.id) {
-               	    echo "found record, updating ${rec.id}"
-               	    rec.description = "test"
-		break
-               }
-            }
-            
-            println(builder.toPrettyString())
-        }
-                    */
+    	updateModule(manifest)
 
 /*
 
@@ -83,5 +33,25 @@ node
 
 def updateModule(def manifest)
 {
+	// MODULES
+        dir('modules') {
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'sasha-jenkins', url: 'git@github.com:VirtoCommerce/vc-modules.git']]])
 
+            def inputFile = readFile file: 'modules.json', encoding: 'utf-8'
+            echo "Input: $inputFile"
+            def parser = new JsonSlurper()
+            def json = parser.parseText(inputFile)
+            echo json
+            def builder = new JsonBuilder(json)
+            
+            for (rec in json) {
+               if ( rec.id == manifest.id) {
+               	    echo "found record, updating ${rec.id}"
+               	    rec.description = "test"
+		break
+               }
+            }
+            
+            println(builder.toPrettyString())
+        }
 }
