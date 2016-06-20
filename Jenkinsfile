@@ -93,8 +93,14 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
 def publishRelease()
 {
 	echo "Compressing artifacts into one file"
-	zip dir: '', glob: '', zipFile: 'artifacts.zip'
+	dir('deploy')
+	{
+		deleteDir
+	}
+	
+	zip dir: '', glob: '', zipFile: 'deply\\artifacts.zip'
 	bat "${env.Utils}\\github-release release --user \"VirtoCommerce\" --repo \"vc-module-jenkinssample\" --tag \"v1.0\" --name \"version 1.0\""
+
 	/*
 	zip -r artifacts.zip artifacts_folder
 	
