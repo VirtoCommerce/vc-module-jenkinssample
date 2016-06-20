@@ -95,7 +95,7 @@ def publishRelease()
 	echo "Compressing artifacts into one file"
 	dir('deploy')
 	{
-		deleteDir
+		deleteDir()
 	}
 	
 	zip dir: '', glob: '', zipFile: 'deply\\artifacts.zip'
