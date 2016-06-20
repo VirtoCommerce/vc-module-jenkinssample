@@ -99,7 +99,7 @@ def publishRelease()
 	}
 	
 	zip dir: '', glob: '', zipFile: 'deploy\\artifacts.zip'
-	bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
+	//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
 	bat "${env.Utils}\\github-release release --user \"VirtoCommerce\" --repo \"vc-module-jenkinssample\" --tag \"v1.0\" --name \"version 1.0\""
 
 	/*
