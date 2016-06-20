@@ -100,7 +100,7 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
 def publishRelease()
 {
 	// check for publish commit & master branch
-	bat "\"${tool 'Git'}\" git log -1 --pretty=%B > LAST_COMMIT_MESSAGE"
+	bat "\"${tool 'Git'}\" log -1 --pretty=%B > LAST_COMMIT_MESSAGE"
 	git_last_commit=readFile('LAST_COMMIT_MESSAGE')
 	
 	if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
