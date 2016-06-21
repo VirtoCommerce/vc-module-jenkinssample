@@ -54,7 +54,7 @@ def processManifest(def manifestPath)
     	
     	try
     	{
-    		echo "dependency id: $manifest.dependencies[0].@id"
+    		echo "dependency id: ${manifest.dependencies[0].@id}"
     	}
     	catch (any) {
     		echo 'failed 1'
@@ -62,7 +62,7 @@ def processManifest(def manifestPath)
 	
 	try
     	{
-    		echo "dependency id: $manifest.dependencies[0]['@id']"
+    		echo "dependency id: ${manifest.dependencies[0]['@id']}"
     	}
     	catch (any) {
     		echo 'failed 2'
