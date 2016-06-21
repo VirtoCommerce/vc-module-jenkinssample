@@ -2,10 +2,10 @@
 import groovy.json.*
 import groovy.util.*
 
-def REPO_ORG = "VirtoCommerce"
-def REPO_NAME = "vc-module-jenkinssample"
 node
 {
+	def REPO_ORG = "VirtoCommerce"
+	def REPO_NAME = "vc-module-jenkinssample"
 	checkout scm
 	buildSolutions()
 	
