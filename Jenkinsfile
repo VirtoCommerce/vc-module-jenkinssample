@@ -47,7 +47,7 @@ def processManifests()
 
 def processManifest(def manifestDirectory)
 {
-	def manifestFile = readFile file: "manifestDirectory\\module.manifest", encoding: 'utf-8'
+	def manifestFile = readFile file: "$manifestDirectory\\module.manifest", encoding: 'utf-8'
 	def manifest = new XmlSlurper().parseText(manifestFile)
 	manifestFile = null
 
