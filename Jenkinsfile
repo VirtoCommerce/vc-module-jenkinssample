@@ -126,6 +126,17 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
 
 def publishRelease(def manifestDirectory, def version)
 {
+	def tempFolder = pwd(tmp: true)
+	def wsFolder = pwd()
+	def tempDir = "$tempFolder\\vc-module"
+	def modulesDir = "$tempDir\\_PublishedWebsites"
+	def packagesDir = "$wsFolder\\artifacts"
+		    		
+	dir(packagesDir)
+	{
+		deleteDir()
+	}
+			
 	def projects = findFiles(glob: '*.csproj')
 
 	if(projects.size() > 0)
@@ -133,17 +144,6 @@ def publishRelease(def manifestDirectory, def version)
 		for(int i = 0; i < projects.size(); i++)
 		{
 			def project = projects[i]
-			def tempFolder = pwd(tmp: true)
-			def wsFolder = pwd()
-			def tempDir = "$tempFolder\\vc-module"
-		    	def modulesDir = "$tempDir\\_PublishedWebsites"
-			def packagesDir = "$wsFolder\\artifacts"
-		    		
-		    	dir(packagesDir)
-			{
-				deleteDir()
-			}
-
 			bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\$project.name\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""			
 		}
 	}
@@ -164,7 +164,6 @@ def publishRelease(def manifestDirectory, def version)
 	}
 
 	//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
-
 }
 
 def buildSolutions()
