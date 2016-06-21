@@ -147,7 +147,7 @@ def publishRelease(def manifestDirectory, def version)
 				{
 					def artifact = artifacts[i]
 					bat "${env.Utils}\\github-release release --user VirtoCommerce --repo vc-module-jenkinssample --tag v${version}"
-					bat "${env.Utils}\\github-release upload --user VirtoCommerce --repo vc-module-jenkinssample --tag v${version} --file \"${artifact}}\""
+					bat "${env.Utils}\\github-release upload --user VirtoCommerce --repo vc-module-jenkinssample --tag v${version} --file \"${artifact}\""
 				}
 			}
 		}
