@@ -16,7 +16,6 @@ node
 	{
 		processManifests()
 	}
-
 /*
 
         "id": "VirtoCommerce.Core",
