@@ -129,22 +129,30 @@ def publishRelease(def manifestDirectory, def version)
 	def tempDir = "$tempFolder\\vc-module"
 	def modulesDir = "$tempDir\\_PublishedWebsites"
 	def packagesDir = "$wsFolder\\artifacts"
+	def foundProjects = false
 		    		
 	dir(packagesDir)
 	{
 		deleteDir()
 	}
 			
-	def projects = findFiles(glob: '$manifestDirectory\\*.csproj')
-
-	if(projects.size() > 0)
+	dir(manifestDirectory)
 	{
-		for(int i = 0; i < projects.size(); i++)
+		def projects = findFiles(glob: '*.csproj')
+		if(projects.size() > 0)
 		{
-			def project = projects[i]
-			bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\$project.name\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""			
+			for(int i = 0; i < projects.size(); i++)
+			{
+				def project = projects[i]
+				bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\$project.name\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""			
+			}
+			
+			foundProjects = true
 		}
-	
+	}
+
+	if(foundProjects)
+	{
 		dir(packagesDir)
 		{
 			def artifacts = findFiles(glob: '*.zip')
@@ -160,9 +168,7 @@ def publishRelease(def manifestDirectory, def version)
 				}
 			}
 		}
-		
 	}
-	
 
 	//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
 }
