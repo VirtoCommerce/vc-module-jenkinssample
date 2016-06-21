@@ -90,6 +90,7 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
             
             for (rec in json) {
                if ( rec.id == id) {
+               	echo "Modifying existing record in modules.json"
                	    rec.description = description
                	    rec.title = title
                	    rec.description = description
@@ -107,6 +108,13 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
                	    	rec.iconUrl = iconUrl
                	    }
 		break
+               }
+               else
+               {
+               	 // create new
+               	 echo "Creating new record in modules.json"
+               	 json.add([id: id, title: title, description: description])
+               	 
                }
             }
             
