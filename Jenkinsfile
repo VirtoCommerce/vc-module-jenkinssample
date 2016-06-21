@@ -123,23 +123,11 @@ def publishRelease(def manifestDirectory, def version)
 	// check for publish commit & master branch
 	bat "\"${tool 'Git'}\" log -1 --pretty=%%B > LAST_COMMIT_MESSAGE"
 	git_last_commit=readFile('LAST_COMMIT_MESSAGE')
-	
+
+   	buildSolutions()	
 	if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
 	{
-		def tempFolder = pwd(tmp: true)
-		def wsFolder = pwd()
-		def tempDir = "$tempFolder\\vc-module"
-    		def modulesDir = "$tempDir\\_PublishedWebsites"
-    		def packagesDir = "$wsFolder\\artifacts"
-    		
-    		dir(packagesDir)
-		{
-			deleteDir()
-		}
-    
-    		buildSolutions()
-		bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\VirtoCommerce.CoreModule.Web.csproj\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""
-
+		buildManifestProject($manifestDirectory)
     		dir(packagesDir)
 		{
 			def artifacts = findFiles(glob: '*.zip')
@@ -158,6 +146,31 @@ def publishRelease(def manifestDirectory, def version)
 	}
 }
 
+def buildManifestProject(def manifestDirectory)
+{
+	def projects = findFiles(glob: '*.csproj')
+
+	if(projects.size() > 0)
+	{
+		for(int i = 0; i < projects.size(); i++)
+		{
+			def project = projects[i]
+			def tempFolder = pwd(tmp: true)
+			def wsFolder = pwd()
+			def tempDir = "$tempFolder\\vc-module"
+		    	def modulesDir = "$tempDir\\_PublishedWebsites"
+			def packagesDir = "$wsFolder\\artifacts"
+		    		
+		    	dir(packagesDir)
+			{
+				deleteDir()
+			}
+
+			bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\VirtoCommerce.CoreModule.Web.csproj\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""			
+		}
+	}
+}
+
 def buildSolutions()
 {
 	def solutions = findFiles(glob: '*.sln')
@@ -173,3 +186,5 @@ def buildSolutions()
 			}
 	}
 }
+
+
