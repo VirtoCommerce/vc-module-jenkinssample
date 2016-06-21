@@ -4,14 +4,7 @@ import groovy.util.*
 
 node
 {
-	checkout scm
-	
-    		
-    	// These should all be performed at the point where you've
-// checked out your sources on the slave. A 'git' executable
-// must be available.
-// Most typical, if you're not cloning into a sub directory
-
+	processManifest()
 
 /*
 
@@ -33,6 +26,8 @@ node
 
 def processManifests()
 {
+	checkout scm
+	
 	// find all manifests
 	def manifests = findFiles(glob: '**\\module.manifest')
 		
@@ -126,13 +121,19 @@ def publishRelease(def manifestDirectory)
 	
 	if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
 	{
-		bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\VirtoCommerce.CoreModule.Web.csproj\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""
-
-		dir('deploy')
+		def tempFolder = tmp()
+		def tempDir = "$tempFolder\\vc-module"
+    		def modulesDir = "$tempDir\\_PublishedWebsites"
+    		def packagesDir = "artifacts"
+    		
+    		dir(packagesDir)
 		{
 			deleteDir()
 		}
-		
+    
+		bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\VirtoCommerce.CoreModule.Web.csproj\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""
+
+	
 //		zip dir: '', glob: '', zipFile: 'deploy\\artifacts.zip'
 		 
 		//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
