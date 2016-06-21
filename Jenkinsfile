@@ -68,6 +68,22 @@ def processManifest(def manifestPath)
     		echo 'failed 2'
 	}
 	
+	try
+    	{
+    		echo "dependency id: ${manifest.dependencies[0]['id']}"
+    	}
+    	catch (any) {
+    		echo 'failed 3'
+	}
+	
+	try
+    	{
+    		echo "dependency id: ${manifest.dependencies[0].id}"
+    	}
+    	catch (any) {
+    		echo 'failed 4'
+	}
+	
     	// get dependencies
     	def dependencies = []
     	for(int i = 0; i < manifest.dependencies.size(); i++)
