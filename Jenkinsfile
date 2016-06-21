@@ -4,8 +4,6 @@ import groovy.util.*
 
 node
 {
-	def REPO_ORG = "VirtoCommerce"
-	def REPO_NAME = "vc-module-jenkinssample"
 	checkout scm
 	buildSolutions()
 	
@@ -124,6 +122,8 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
 
 def publishRelease(def manifestDirectory, def version)
 {
+	def REPO_ORG = "VirtoCommerce"
+	def REPO_NAME = "vc-module-jenkinssample"
 	def tempFolder = pwd(tmp: true)
 	def wsFolder = pwd()
 	def tempDir = "$tempFolder\\vc-module"
