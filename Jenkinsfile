@@ -57,7 +57,7 @@ def processManifest(def manifestPath)
     	for(int i = 0; i < manifest.dependencies.size(); i++)
 	{
 		def dependency = manifest.dependencies[i]
-		def dependencyObj = [id: dependency.@id, version: dependency.@version]
+		def dependencyObj = [id: dependency["id"], version: dependency["version"]]
 		dependencies.add(dependencyObj)
 	}
 	
