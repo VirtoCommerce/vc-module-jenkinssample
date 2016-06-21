@@ -74,7 +74,7 @@ def processManifest(def manifestPath)
     	def iconUrl = manifest.iconUrl.toString()
     	
     	def manifestDirectory = manifestPath.substring(0, manifestPath.length() - 16)
-    	def packageUrl = publishRelease(manifestDirectory, version)
+    	packageUrl = publishRelease(manifestDirectory, version)
     	
     	manifest = null
     	updateModule(
