@@ -12,7 +12,7 @@ node
 	bat "\"${tool 'Git'}\" log -1 --pretty=%%B > LAST_COMMIT_MESSAGE"
 	git_last_commit=readFile('LAST_COMMIT_MESSAGE')
 
-	if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
+	if (env.BRANCH_NAME == 'master' && git_last_commit.startsWith('publish'))
 	{
 		processManifests()
 	}
@@ -166,7 +166,7 @@ def buildManifestProject(def manifestDirectory)
 				deleteDir()
 			}
 
-			bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\VirtoCommerce.CoreModule.Web.csproj\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""			
+			bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\$project.name\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""			
 		}
 	}
 }
