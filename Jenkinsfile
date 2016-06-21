@@ -55,7 +55,7 @@ def processManifest(def manifestPath)
 	echo "dependencies:"    	
     	echo manifest.dependencies[0].attributes().getClass().toString()
     	echo manifest.dependencies[0].getClass().toString()
-    	echo manifest.dependencies[0].attributes()['version']
+    	echo manifest.dependencies[0].attributes().get('version')
 
     	// get dependencies
     	def dependencies = []
