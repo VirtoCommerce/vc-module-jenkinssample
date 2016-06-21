@@ -34,7 +34,6 @@ node
 */
 }
 
-
 def processManifests()
 {
 	// find all manifests
