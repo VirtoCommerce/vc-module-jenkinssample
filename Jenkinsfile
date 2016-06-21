@@ -117,7 +117,15 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
             {
              	// create new
                	 echo "Creating new record in modules.json"
-               	 json.add([id: id, title: title, description: description])
+               	 json.add([
+               	 	id: id, 
+               	 	title: title, 
+               	 	description: description, 
+               	 	dependencies: dependencies, 
+               	 	projectUrl: projectUrl, 
+               	 	packageUrl: packageUrl,
+               	 	iconUrl: iconUrl
+               	 	])
             }
             
             println(builder.toString())
