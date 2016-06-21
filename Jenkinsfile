@@ -124,7 +124,7 @@ def publishRelease(def manifestDirectory)
 	
 	//if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
 	//{
-		def tempFolder = tmp()
+		def tempFolder = pwd(tmp)
 		def tempDir = "$tempFolder\\vc-module"
     		def modulesDir = "$tempDir\\_PublishedWebsites"
     		def packagesDir = "artifacts"
