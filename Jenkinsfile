@@ -137,7 +137,7 @@ def publishRelease(def manifestDirectory, def version)
 		deleteDir()
 	}
 			
-	def projects = findFiles(glob: '*.csproj')
+	def projects = findFiles(glob: '**\\*.csproj')
 
 	if(projects.size() > 0)
 	{
@@ -146,22 +146,24 @@ def publishRelease(def manifestDirectory, def version)
 			def project = projects[i]
 			bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\$project.name\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""			
 		}
-	}
 	
-	dir(packagesDir)
-	{
-		def artifacts = findFiles(glob: '*.zip')
-		if(artifacts.size() > 0)
+		dir(packagesDir)
 		{
-			for(int i = 0; i < artifacts.size(); i++)
+			def artifacts = findFiles(glob: '*.zip')
+			if(artifacts.size() > 0)
 			{
-				def artifact = artifacts[i]
-				bat "${env.Utils}\\github-release release --user $REPO_ORG --repo $REPO_NAME --tag v${version}"
-				bat "${env.Utils}\\github-release upload --user $REPO_ORG --repo $REPO_NAME --tag v${version} --name \"${artifact}\" --file \"${artifact}\""
-				return  "https://github.com/$REPO_ORG/$REPO_NAME/releases/download/v${version}/${artifact}"
+				for(int i = 0; i < artifacts.size(); i++)
+				{
+					def artifact = artifacts[i]
+					bat "${env.Utils}\\github-release release --user $REPO_ORG --repo $REPO_NAME --tag v${version}"
+					bat "${env.Utils}\\github-release upload --user $REPO_ORG --repo $REPO_NAME --tag v${version} --name \"${artifact}\" --file \"${artifact}\""
+					return  "https://github.com/$REPO_ORG/$REPO_NAME/releases/download/v${version}/${artifact}"
+				}
 			}
 		}
+		
 	}
+	
 
 	//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
 }
