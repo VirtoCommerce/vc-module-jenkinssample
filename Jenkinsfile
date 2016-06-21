@@ -6,7 +6,53 @@ node
 {
 	checkout scm
 	
-	def manifestFile = readFile file: 'module.manifest', encoding: 'utf-8'
+    		
+    	// These should all be performed at the point where you've
+// checked out your sources on the slave. A 'git' executable
+// must be available.
+// Most typical, if you're not cloning into a sub directory
+
+
+/*
+
+        "id": "VirtoCommerce.Core",
+        "version": "2.12.0",
+        "platformVersion": "2.11.0",
+        "title": "Commerce core module",
+        "description": "Common e-commerce domain functionality",
+        "groups": [ "commerce" ],
+        "authors": [ "Virto Commerce" ],
+        "owners": [ "Virto Commerce" ],
+        "projectUrl": "https://github.com/VirtoCommerce/vc-module-core",
+        "iconUrl": "https://raw.githubusercontent.com/VirtoCommerce/vc-module-core/master/VirtoCommerce.CoreModule.Web/Content/logoVC.png",
+        "packageUrl": "https://github.com/VirtoCommerce/vc-module-core/releases/download/v2.12/VirtoCommerce.Core_2.12.0.zip"
+
+*/
+}
+
+
+def processManifests()
+{
+	// find all manifests
+	def manifests = findFiles(glob: '**\\module.manifest')
+		
+	if(manifests.size() > 0)
+	{
+		for(int i = 0; i < manifests.size(); i++)
+		{
+			def manifest = manifests[i]
+			processManifest(manifest.directory)
+		}
+	}
+	else
+	{
+		echo "no module.manifest files found"
+	}
+}
+
+def processManifest(def manifestDirectory)
+{
+	def manifestFile = readFile file: "manifestDirectory\\module.manifest", encoding: 'utf-8'
 	def manifest = new XmlSlurper().parseText(manifestFile)
 	manifestFile = null
 
@@ -33,34 +79,9 @@ node
     		packageUrl,
     		iconUrl)
     		
-    	publishRelease()
-    		
-    	// These should all be performed at the point where you've
-// checked out your sources on the slave. A 'git' executable
-// must be available.
-// Most typical, if you're not cloning into a sub directory
-
-
-/*
-
-        "id": "VirtoCommerce.Core",
-        "version": "2.12.0",
-        "platformVersion": "2.11.0",
-        "title": "Commerce core module",
-        "description": "Common e-commerce domain functionality",
-        "groups": [ "commerce" ],
-        "authors": [ "Virto Commerce" ],
-        "owners": [ "Virto Commerce" ],
-        "projectUrl": "https://github.com/VirtoCommerce/vc-module-core",
-        "iconUrl": "https://raw.githubusercontent.com/VirtoCommerce/vc-module-core/master/VirtoCommerce.CoreModule.Web/Content/logoVC.png",
-        "packageUrl": "https://github.com/VirtoCommerce/vc-module-core/releases/download/v2.12/VirtoCommerce.Core_2.12.0.zip"
-
-*/
+    	publishRelease(manifestDirectory)
 }
 
-//publishRelease()
-
-//@NonCPS
 def updateModule(def id, def version, def platformVersion, def title, def description, def projectUrl, def packageUrl, def iconUrl)
 {
 	// MODULES
@@ -97,7 +118,7 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
         }
 }
 
-def publishRelease()
+def publishRelease(def manifestDirectory)
 {
 	// check for publish commit & master branch
 	bat "\"${tool 'Git'}\" log -1 --pretty=%%B > LAST_COMMIT_MESSAGE"
@@ -105,16 +126,15 @@ def publishRelease()
 	
 	if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
 	{
-		//def userInput = input(id: 'userInput', message: 'Create release?') 
-		echo "Compressing artifacts into one file"
+		bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\VirtoCommerce.CoreModule.Web.csproj\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""
+
 		dir('deploy')
 		{
 			deleteDir()
 		}
 		
-		zip dir: '', glob: '', zipFile: 'deploy\\artifacts.zip'
+//		zip dir: '', glob: '', zipFile: 'deploy\\artifacts.zip'
 		 
-	
 		//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
 		bat "${env.Utils}\\github-release release --user VirtoCommerce --repo vc-module-jenkinssample --tag v1.0 --name v1.0"
 		bat "${env.Utils}\\github-release upload --user VirtoCommerce --repo vc-module-jenkinssample --tag v1.0 --name v1.0 --file \"deploy\\artifacts.zip\""
