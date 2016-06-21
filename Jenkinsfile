@@ -87,6 +87,7 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
             def parser = new JsonSlurper()
             def json = parser.parseText(inputFile)
             def builder = new JsonBuilder(json)
+            def foundRecord = false
             
             for (rec in json) {
                if ( rec.id == id) {
@@ -107,15 +108,16 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
                	    {
                	    	rec.iconUrl = iconUrl
                	    }
+                foundRecord = true
 		break
                }
-               else
-               {
-               	 // create new
+            }
+            
+            if(!foundRecord)
+            {
+             	// create new
                	 echo "Creating new record in modules.json"
                	 json.add([id: id, title: title, description: description])
-               	 
-               }
             }
             
             println(builder.toString())
