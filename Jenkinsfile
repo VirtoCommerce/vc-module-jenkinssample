@@ -2,6 +2,8 @@
 import groovy.json.*
 import groovy.util.*
 
+def REPO_ORG = "VirtoCommerce"
+def REPO_NAME = "vc-module-jenkinssample"
 node
 {
 	processManifests()
@@ -112,7 +114,7 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
                }
             }
             
-            println(builder.toPrettyString())
+            println(builder.toString())
         }
 }
 
@@ -122,8 +124,8 @@ def publishRelease(def manifestDirectory, def version)
 	bat "\"${tool 'Git'}\" log -1 --pretty=%%B > LAST_COMMIT_MESSAGE"
 	git_last_commit=readFile('LAST_COMMIT_MESSAGE')
 	
-	//if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
-	//{
+	if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
+	{
 		def tempFolder = pwd(tmp: true)
 		def wsFolder = pwd()
 		def tempDir = "$tempFolder\\vc-module"
@@ -146,18 +148,14 @@ def publishRelease(def manifestDirectory, def version)
 				for(int i = 0; i < artifacts.size(); i++)
 				{
 					def artifact = artifacts[i]
-					bat "${env.Utils}\\github-release release --user VirtoCommerce --repo vc-module-jenkinssample --tag v${version}"
-					bat "${env.Utils}\\github-release upload --user VirtoCommerce --repo vc-module-jenkinssample --tag v${version} --name \"${artifact}\" --file \"${artifact}\""
+					bat "${env.Utils}\\github-release release --user $REPO_ORG --repo $REPO_NAME --tag v${version}"
+					bat "${env.Utils}\\github-release upload --user $REPO_ORG --repo $REPO_NAME --tag v${version} --name \"${artifact}\" --file \"${artifact}\""
 				}
 			}
 		}
-	
-//		zip dir: '', glob: '', zipFile: 'deploy\\artifacts.zip'
-		 
+
 		//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
-		//bat "${env.Utils}\\github-release release --user VirtoCommerce --repo vc-module-jenkinssample --tag v1.0 --name v1.0"
-		//bat "${env.Utils}\\github-release upload --user VirtoCommerce --repo vc-module-jenkinssample --tag v1.0 --name v1.0 --file \"deploy\\artifacts.zip\""
-	//}
+	}
 }
 
 def buildSolutions()
