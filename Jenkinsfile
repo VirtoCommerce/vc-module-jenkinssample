@@ -36,8 +36,7 @@ def processManifests()
 		for(int i = 0; i < manifests.size(); i++)
 		{
 			def manifest = manifests[i]
-			echo "Path: $manifest.path, directory $manifest.directory, name: $manifest.name"
-			processManifest(manifest.directory)
+			processManifest(manifest.path)
 		}
 	}
 	else
@@ -46,9 +45,9 @@ def processManifests()
 	}
 }
 
-def processManifest(def manifestDirectory)
+def processManifest(def manifestPath)
 {
-	def manifestFile = readFile file: "$manifestDirectory\\module.manifest", encoding: 'utf-8'
+	def manifestFile = readFile file: "$manifestPath", encoding: 'utf-8'
 	def manifest = new XmlSlurper().parseText(manifestFile)
 	manifestFile = null
 
@@ -74,7 +73,8 @@ def processManifest(def manifestDirectory)
     		projectUrl,
     		packageUrl,
     		iconUrl)
-    		
+    	
+    	def manifestDirectory = manifestPath.substring(manifestPath.length() - 15)
     	publishRelease(manifestDirectory)
 }
 
