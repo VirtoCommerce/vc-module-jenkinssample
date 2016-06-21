@@ -4,7 +4,7 @@ import groovy.util.*
 
 node
 {
-	processManifest()
+	processManifests()
 
 /*
 
