@@ -73,6 +73,9 @@ def processManifest(def manifestPath)
     	def packageUrl = manifest.packageUrl.toString()
     	def iconUrl = manifest.iconUrl.toString()
     	
+    	def manifestDirectory = manifestPath.substring(0, manifestPath.length() - 16)
+    	def packageUrl = publishRelease(manifestDirectory, version)
+    	
     	manifest = null
     	updateModule(
     		id, 
@@ -83,10 +86,6 @@ def processManifest(def manifestPath)
     		projectUrl,
     		packageUrl,
     		iconUrl)
-    	
-    	def manifestDirectory = manifestPath.substring(0, manifestPath.length() - 16)
-    	echo "publishing using $manifestDirectory dir"
-    	publishRelease(manifestDirectory, version)
 }
 
 def updateModule(def id, def version, def platformVersion, def title, def description, def projectUrl, def packageUrl, def iconUrl)
