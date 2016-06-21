@@ -134,6 +134,7 @@ def publishRelease(def manifestDirectory)
 			deleteDir()
 		}
     
+    		buildSolutions()
 		bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\VirtoCommerce.CoreModule.Web.csproj\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""
 
 	
@@ -143,4 +144,20 @@ def publishRelease(def manifestDirectory)
 		//bat "${env.Utils}\\github-release release --user VirtoCommerce --repo vc-module-jenkinssample --tag v1.0 --name v1.0"
 		//bat "${env.Utils}\\github-release upload --user VirtoCommerce --repo vc-module-jenkinssample --tag v1.0 --name v1.0 --file \"deploy\\artifacts.zip\""
 	//}
+}
+
+def buildSolutions()
+{
+	def solutions = findFiles(glob: '*.sln')
+
+	if(solutions.size() > 0)
+	{
+		stage 'Build'
+			for(int i = 0; i < solutions.size(); i++)
+			{
+				def solution = solutions[i]
+				bat "Nuget restore ${solution.name}"
+				bat "\"${tool 'MSBuild 12.0'}\" \"${solution.name}\" /p:Configuration=Debug /p:Platform=\"Any CPU\""
+			}
+	}
 }
