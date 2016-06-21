@@ -51,39 +51,10 @@ def processManifest(def manifestPath)
     	def projectUrl = manifest.projectUrl.toString()
     	def packageUrl = manifest.packageUrl.toString()
     	def iconUrl = manifest.iconUrl.toString()
-    	
-    	try
-    	{
-    		echo "dependency id: ${manifest.dependencies[0].@id}"
-    	}
-    	catch (any) {
-    		echo 'failed 1'
-	}
-	
-	try
-    	{
-    		echo "dependency id: ${manifest.dependencies[0]['@id']}"
-    	}
-    	catch (any) {
-    		echo 'failed 2'
-	}
-	
-	try
-    	{
-    		echo "dependency id: ${manifest.dependencies[0]['id']}"
-    	}
-    	catch (any) {
-    		echo 'failed 3'
-	}
-	
-	try
-    	{
-    		echo "dependency id: ${manifest.dependencies[0].id}"
-    	}
-    	catch (any) {
-    		echo 'failed 4'
-	}
-	
+
+	echo "dependencies:"    	
+    	echo manifest.dependencies.text()
+
     	// get dependencies
     	def dependencies = []
     	for(int i = 0; i < manifest.dependencies.size(); i++)
