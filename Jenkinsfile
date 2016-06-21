@@ -136,14 +136,14 @@ def publishRelease(def manifestDirectory, def version)
 		deleteDir()
 	}
 			
-	def projects = findFiles(glob: '**\\*.csproj')
+	def projects = findFiles(glob: '$manifestDirectory\\*.csproj')
 
 	if(projects.size() > 0)
 	{
 		for(int i = 0; i < projects.size(); i++)
 		{
 			def project = projects[i]
-			bat "\"${tool 'MSBuild 12.0'}\" \"$wsFolder\\$manifestDirectory\\$project.name\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""			
+			bat "\"${tool 'MSBuild 12.0'}\" \"$manifestDirectory\\$project.name\" /nologo /verbosity:m /t:PackModule /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DebugType=none /p:AllowedReferenceRelatedFileExtensions=: \"/p:OutputPath=$tempDir\" \"/p:VCModulesOutputDir=$modulesDir\" \"/p:VCModulesZipDir=$packagesDir\""			
 		}
 	
 		dir(packagesDir)
