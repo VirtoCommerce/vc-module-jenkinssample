@@ -6,7 +6,16 @@ def REPO_ORG = "VirtoCommerce"
 def REPO_NAME = "vc-module-jenkinssample"
 node
 {
-	processManifests()
+	checkout scm
+	buildSolutions()
+	
+	bat "\"${tool 'Git'}\" log -1 --pretty=%%B > LAST_COMMIT_MESSAGE"
+	git_last_commit=readFile('LAST_COMMIT_MESSAGE')
+
+	if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
+	{
+		processManifests()
+	}
 
 /*
 
@@ -28,8 +37,6 @@ node
 
 def processManifests()
 {
-	checkout scm
-	
 	// find all manifests
 	def manifests = findFiles(glob: '**\\module.manifest')
 		
@@ -120,30 +127,24 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
 
 def publishRelease(def manifestDirectory, def version)
 {
-	// check for publish commit & master branch
-	bat "\"${tool 'Git'}\" log -1 --pretty=%%B > LAST_COMMIT_MESSAGE"
-	git_last_commit=readFile('LAST_COMMIT_MESSAGE')
-
-   	buildSolutions()	
-	if (env.BRANCH_NAME == 'master' && git_last_commit == 'publish')
+	buildManifestProject($manifestDirectory)
+	dir(packagesDir)
 	{
-		buildManifestProject($manifestDirectory)
-    		dir(packagesDir)
+		def artifacts = findFiles(glob: '*.zip')
+		if(artifacts.size() > 0)
 		{
-			def artifacts = findFiles(glob: '*.zip')
-			if(artifacts.size() > 0)
+			for(int i = 0; i < artifacts.size(); i++)
 			{
-				for(int i = 0; i < artifacts.size(); i++)
-				{
-					def artifact = artifacts[i]
-					bat "${env.Utils}\\github-release release --user $REPO_ORG --repo $REPO_NAME --tag v${version}"
-					bat "${env.Utils}\\github-release upload --user $REPO_ORG --repo $REPO_NAME --tag v${version} --name \"${artifact}\" --file \"${artifact}\""
-				}
+				def artifact = artifacts[i]
+				bat "${env.Utils}\\github-release release --user $REPO_ORG --repo $REPO_NAME --tag v${version}"
+				bat "${env.Utils}\\github-release upload --user $REPO_ORG --repo $REPO_NAME --tag v${version} --name \"${artifact}\" --file \"${artifact}\""
+				return  "https://github.com/$REPO_ORG/$REPO_NAME/releases/download/v${version}/${artifact}"
 			}
 		}
-
-		//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
 	}
+
+	//bat "${env.Utils}\\github-release info -u VirtoCommerce -r vc-module-jenkinssample"
+
 }
 
 def buildManifestProject(def manifestDirectory)
