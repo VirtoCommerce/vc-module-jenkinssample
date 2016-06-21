@@ -12,7 +12,7 @@ node
 	bat "\"${tool 'Git'}\" log -1 --pretty=%%B > LAST_COMMIT_MESSAGE"
 	git_last_commit=readFile('LAST_COMMIT_MESSAGE')
 
-	if (env.BRANCH_NAME == 'master' && git_last_commit.startsWith('publish'))
+	if (env.BRANCH_NAME == 'master' && git_last_commit.contains('[publish]'))
 	{
 		processManifests()
 	}
@@ -126,7 +126,7 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
 
 def publishRelease(def manifestDirectory, def version)
 {
-	buildManifestProject($manifestDirectory)
+	buildManifestProject(manifestDirectory)
 	dir(packagesDir)
 	{
 		def artifacts = findFiles(glob: '*.zip')
