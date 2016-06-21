@@ -8,8 +8,8 @@ import groovy.util.*
       		stage 'Checkout'
 			checkout scm
 		
-			stage 'Publishing'
-				processManifests()
+		stage 'Publishing'
+			processManifests()
 		
  
     }
@@ -57,7 +57,7 @@ def processManifest(def manifestPath)
     	for(int i = 0; i < manifest.dependencies.size(); i++)
 	{
 		def dependency = manifest.dependencies[i]
-		def dependencyObj = [id: dependency["id"].toString(), version: dependency["version"].toString()]
+		def dependencyObj = [id: dependency.@'id'.toString(), version: dependency@'version'.toString()]
 		dependencies.add(dependencyObj)
 	}
 	
