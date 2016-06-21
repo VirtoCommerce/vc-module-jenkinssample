@@ -47,6 +47,7 @@ def processManifests()
 
 def processManifest(def manifestPath)
 {
+	echo "reading $manifestPath"
 	def manifestFile = readFile file: "$manifestPath", encoding: 'utf-8'
 	def manifest = new XmlSlurper().parseText(manifestFile)
 	manifestFile = null
@@ -75,6 +76,7 @@ def processManifest(def manifestPath)
     		iconUrl)
     	
     	def manifestDirectory = manifestPath.substring(manifestPath.length() - 15)
+    	echo "publishing using $manifestDirectory dir"
     	publishRelease(manifestDirectory)
 }
 
