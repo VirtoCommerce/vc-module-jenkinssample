@@ -143,7 +143,7 @@ def publishRelease(def manifestDirectory, def version)
 			def artifacts = findFiles(glob: '*.zip')
 			if(artifacts.size() > 0)
 			{
-				for(int i = 0; i < solutions.size(); i++)
+				for(int i = 0; i < artifacts.size(); i++)
 				{
 					def artifact = artifacts[i]
 					bat "${env.Utils}\\github-release release --user VirtoCommerce --repo vc-module-jenkinssample --tag v${version}"
