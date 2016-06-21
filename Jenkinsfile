@@ -53,9 +53,9 @@ def processManifest(def manifestPath)
     	def iconUrl = manifest.iconUrl.toString()
 
 	echo "dependencies:"    	
-    	echo manifest.dependencies.getClass().toString()
+    	echo manifest.dependencies.attributes().getClass().toString()
     	echo manifest.dependencies[0].getClass().toString()
-    	echo manifest.dependencies[0].@version
+    	echo manifest.dependencies[0].attributes()['version']
 
     	// get dependencies
     	def dependencies = []
