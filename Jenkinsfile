@@ -156,6 +156,7 @@ def publishRelease(def manifestDirectory, def version)
 					def artifact = artifacts[i]
 					bat "${env.Utils}\\github-release release --user $REPO_ORG --repo $REPO_NAME --tag v${version}"
 					bat "${env.Utils}\\github-release upload --user $REPO_ORG --repo $REPO_NAME --tag v${version} --name \"${artifact}\" --file \"${artifact}\""
+					echo "uploaded to https://github.com/$REPO_ORG/$REPO_NAME/releases/download/v${version}/${artifact}"
 					return  "https://github.com/$REPO_ORG/$REPO_NAME/releases/download/v${version}/${artifact}"
 				}
 			}
