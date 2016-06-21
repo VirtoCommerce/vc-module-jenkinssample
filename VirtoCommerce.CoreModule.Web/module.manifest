@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <module>
-    <id>VirtoCommerce.Core</id>
+    <id>Authorize.Net</id>
     <version>2.12.0</version>
-    <platformVersion>2.11.0</platformVersion>
+    <platformVersion>2.0.0</platformVersion>
+    <dependencies>
+        <dependency id="VirtoCommerce.Core" version="2.11.0" />
+    </dependencies>
 
-    <title>Commerce core module</title>
-    <description>Common e-commerce domain functionality</description>
+    <title>Authorize.Net payment gateway</title>
+    <description>APIs and UI for Authorize.Net payment gateway</description>
     <authors>
         <author>Virto Commerce</author>
     </authors>
@@ -13,95 +16,71 @@
         <owner>Virto Commerce</owner>
     </owners>
     <projectUrl>http://virtocommerce.com/</projectUrl>
-    <iconUrl>Modules/$(VirtoCommerce.Core)/Content/logoVC.png</iconUrl>
+    <iconUrl>Modules/$(Authorize.Net)/Content/Authorizenet_logo.png</iconUrl>
     <releaseNotes>First version.</releaseNotes>
     <copyright>Copyright © 2011-2016 Virto Commerce. All rights reserved</copyright>
-    <tags>security core</tags>
+    <tags>klarna payment gateway</tags>
 
-    <assemblyFile>VirtoCommerce.CoreModule.Web.dll</assemblyFile>
-    <moduleType>VirtoCommerce.CoreModule.Web.Module, VirtoCommerce.CoreModule.Web</moduleType>
-
-    <styles>
-        <directory virtualPath="$/Content/css" searchPattern="*.css" searchSubdirectories="true" />
-    </styles>
-    <scripts>
-        <directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
-    </scripts>
-
+    <assemblyFile>Authorize.Net.dll</assemblyFile>
+    <moduleType>Authorize.Net.Module, Authorize.Net</moduleType>
+    <!--<styles>
+		<directory virtualPath="$/Content/css" searchPattern="*.css" searchSubdirectories="true" />
+	</styles>-->
     <settings>
-        <group name="Commerce|General">
+        <group name="Payment methods|Authorize.Net|Credentials">
             <setting>
-                <name>VirtoCommerce.Core.General.TaxTypes</name>
+                <name>AutorizeNet.ApiLogin</name>
                 <valueType>string</valueType>
-                <defaultValue>Default</defaultValue>
-                <title>Tax types</title>
-                <description>Tax types available in system</description>
-                <isArray>true</isArray>
-                <arrayValues>
-                </arrayValues>
+                <title>Api login id</title>
+                <description>Authorize.Net api login id from credentials</description>
             </setting>
             <setting>
-                <name>VirtoCommerce.Core.General.WeightUnits</name>
+                <name>AutorizeNet.TxnKey</name>
                 <valueType>string</valueType>
-                <defaultValue>gram</defaultValue>
-                <title>Mass units</title>
-                <description>Mass units available for physical goods weighting</description>
-                <isArray>true</isArray>
-                <arrayValues>
-                    <value>gram</value>
-                    <value>ounce</value>
-                    <value>pound</value>
-                </arrayValues>
+                <title>Transaction key</title>
+                <description>Authorize.Net transaction key from credentials</description>
             </setting>
             <setting>
-                <name>VirtoCommerce.Core.General.Languages</name>
+                <name>AutorizeNet.Mode</name>
                 <valueType>string</valueType>
-                <defaultValue>en-US</defaultValue>
-                <title>Languages</title>
-                <description>Languages available in the platform</description>
-                <isArray>true</isArray>
-                <arrayValues>
-                    <value>en-US</value>
-                    <value>fr-FR</value>
-                    <value>de-DE</value>
-                    <value>ja-JP</value>
-                </arrayValues>
+                <defaultValue>test</defaultValue>
+                <allowedValues>
+                    <value>test</value>
+                    <value>real</value>
+                </allowedValues>
+                <title>Mode</title>
+                <description>Mode of Authorize.Net payment gateway (test or real)</description>
             </setting>
             <setting>
-                <name>VirtoCommerce.Core.ExportImport.Description</name>
+                <name>AutorizeNet.ConfirmationRelativeUrl</name>
                 <valueType>string</valueType>
-                <defaultValue>Export/Import fulfillment centers</defaultValue>
-                <title>Export/Import description</title>
-                <description>Module description in platform export/import wizard</description>
+                <defaultValue>admin/api/payments/an/registerpayment</defaultValue>
+                <title>Confirmation relative url</title>
+                <description>Authorize Net payment confirmation relative url</description>
             </setting>
             <setting>
-                <name>VirtoCommerce.Core.FixedRateShippingMethod.Rate</name>
-                <valueType>decimal</valueType>
-                <defaultValue>0.00</defaultValue>
-                <title>Fixed shipping rate</title>
-                <description>Fixed shipping rate</description>
+                <name>AuthorizeNet.ThankYouPageRelativeUrl</name>
+                <defaultValue>thanks</defaultValue>
+                <title>Thank you page relative url</title>
+                <description>Storefront thank you page relative url</description>
             </setting>
             <setting>
-                <name>VirtoCommerce.Core.FixedTaxRateProvider.Rate</name>
-                <valueType>decimal</valueType>
-                <defaultValue>0.00</defaultValue>
-                <title>Fixed tax rate %</title>
-                <description>Fixed tax rate</description>
+                <name>AutorizeNet.PaymentActionType</name>
+                <valueType>string</valueType>
+                <allowedValues>
+                    <value>Authorization/Capture</value>
+                    <value>Sale</value>
+                </allowedValues>
+                <defaultValue>Authorization/Capture</defaultValue>
+                <title>Payment action type</title>
+                <description>Action type of payment</description>
+            </setting>
+            <setting>
+                <name>AuthorizeNet.MD5Hash</name>
+                <valueType>string</valueType>
+                <title>MD5 hash key</title>
+                <description>Authorize Net MD5 hash key used for validate relay responce</description>
             </setting>
         </group>
     </settings>
-
-    <permissions>
-        <group name="Core">
-            <permission id="core:currency:create" name="Create currency" />
-            <permission id="core:currency:read" name="View currencies" />
-            <permission id="core:currency:update" name="Update currency" />
-            <permission id="core:currency:delete" name="Delete currency" />
-
-            <permission id="core:fulfillment:create" name="Create fulfillment center" description=""/>
-            <permission id="core:fulfillment:read" name="View fulfillment center data" description=""/>
-            <permission id="core:fulfillment:update" name="Update fulfillment center" description=""/>
-            <permission id="core:fulfillment:delete" name="Delete fulfillment center" description=""/>
-        </group>
-    </permissions>
 </module>
