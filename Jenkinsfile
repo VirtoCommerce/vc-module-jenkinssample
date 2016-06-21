@@ -36,6 +36,7 @@ def processManifests()
 		for(int i = 0; i < manifests.size(); i++)
 		{
 			def manifest = manifests[i]
+			echo "Path: $manifest.path"
 			processManifest(manifest.directory)
 		}
 	}
