@@ -53,7 +53,7 @@ def processManifest(def manifestPath)
     	def iconUrl = manifest.iconUrl.toString()
 
 	echo "dependencies:"    	
-    	echo manifest.dependencies.xml()
+    	echo manifest.dependencies[0].text()
 
     	// get dependencies
     	def dependencies = []
