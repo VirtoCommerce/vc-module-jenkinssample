@@ -62,6 +62,20 @@ def processManifest(def manifestPath)
 		dependencies.add(dependencyObj)
 	}
 	
+	def owners = []
+    	for(int i = 0; i < manifest.owners.owner.size(); i++)
+	{
+		def owner = manifest.owners.owner[i]
+		dependencies.add(owner.text())
+	}
+	
+	def authors = []
+    	for(int i = 0; i < manifest.authors.author.size(); i++)
+	{
+		def author = manifest.authors.author[i]
+		authors.add(author.text())
+	}
+	
     	manifest = null
     	
     	def manifestDirectory = manifestPath.substring(0, manifestPath.length() - 16)
@@ -71,6 +85,8 @@ def processManifest(def manifestPath)
     		version, 
     		platformVersion,
     		title,
+    		authors,
+    		owners,
     		description,
     		dependencies,
     		projectUrl,
@@ -78,7 +94,7 @@ def processManifest(def manifestPath)
     		iconUrl)
 }
 
-def updateModule(def id, def version, def platformVersion, def title, def description, def dependencies, def projectUrl, def packageUrl, def iconUrl)
+def updateModule(def id, def version, def platformVersion, def title, def authors, def owners, def description, def dependencies, def projectUrl, def packageUrl, def iconUrl)
 {
 	// MODULES
         dir('modules') {
@@ -109,6 +125,11 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
                	    {
                	    	rec.iconUrl = iconUrl
                	    }
+               	    
+               	    rec.dependencies = dependencies
+               	    rec.authors = authors
+               	    rec.owners = owners
+               	    
                 foundRecord = true
 		break
                }
@@ -121,6 +142,8 @@ def updateModule(def id, def version, def platformVersion, def title, def descri
                	 json.add([
                	 	id: id, 
                	 	title: title, 
+               	 	authors: authors,
+               	 	owners: owners,
                	 	description: description, 
                	 	dependencies: dependencies, 
                	 	projectUrl: projectUrl, 
