@@ -66,7 +66,7 @@ def processManifest(def manifestPath)
     	for(int i = 0; i < manifest.owners.owner.size(); i++)
 	{
 		def owner = manifest.owners.owner[i]
-		dependencies.add(owner.text())
+		owners.add(owner.text())
 	}
 	
 	def authors = []
