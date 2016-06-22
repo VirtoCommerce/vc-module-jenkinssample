@@ -53,18 +53,12 @@ def processManifest(def manifestPath)
     	def packageUrl = manifest.packageUrl.toString()
     	def iconUrl = manifest.iconUrl.toString()
 
-	echo "dependencies:"    	
-    	echo manifest.dependencies[0].getClass().toString()
-    	echo manifest.dependencies.size().toString()
-    	echo manifest.dependencies[0].attributes().size().toString()
-    	echo manifest.dependencies.dependency[0].attributes().get('version')
-
     	// get dependencies
     	def dependencies = []
     	for(int i = 0; i < manifest.dependencies.dependency.size(); i++)
 	{
 		def dependency = manifest.dependencies.dependency[i]
-		def dependencyObj = [id: dependency['@id'].text(), version: dependency['@version'].text()]
+		def dependencyObj = [id: dependency.@id.text(), version: dependency.@version.text()]
 		dependencies.add(dependencyObj)
 	}
 	
