@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <module>
-    <id>Authorize.Net</id>
+    <id>Jenkins.Test.Module</id>
     <version>2.12.0</version>
     <platformVersion>2.0.0</platformVersion>
     <dependencies>
