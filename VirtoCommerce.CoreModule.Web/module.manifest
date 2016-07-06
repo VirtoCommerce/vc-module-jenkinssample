@@ -7,7 +7,7 @@
         <dependency id="VirtoCommerce.Core" version="2.11.0" />
     </dependencies>
 
-    <title>Authorize.Net payment gateway</title>
+    <title>jenkins test module</title>
     <description>APIs and UI for Authorize.Net payment gateway</description>
     <authors>
         <author>Virto Commerce</author>
