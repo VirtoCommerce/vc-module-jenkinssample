@@ -29,7 +29,7 @@
     <settings>
         <group name="Payment methods|Authorize.Net|Credentials">
             <setting>
-                <name>AutorizeNet.ApiLogin</name>
+                <name>AutorizeNet.ApiLogin</name> 
                 <valueType>string</valueType>
                 <title>Api login id</title>
                 <description>Authorize.Net api login id from credentials</description>
