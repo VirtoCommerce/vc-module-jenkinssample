@@ -1,2 +1,4 @@
 #!groovy
-virtoModule {}
+virtoModule {
+  @Library('virto-shared-library@dev')
+}
