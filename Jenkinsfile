@@ -1,4 +1,4 @@
 #!groovy
+@Library('virto-shared-library@dev')
 virtoModule {
-  @Library('virto-shared-library@dev')
 }
